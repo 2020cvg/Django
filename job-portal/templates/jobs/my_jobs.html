@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Hero Section (Same as Other Pages) -->
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+      <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
+        <p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+          We have <span class="number" data-number="850000">0</span> great job offers you deserve!
+        </p>
+        <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+          Your Dream <br><span>Job is Waiting</span>
+        </h1>
+
+        <!-- Search Section -->
+        <div class="ftco-search">
+          <div class="row">
+            <div class="col-md-12 nav-link-wrap">
+              <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Find a Job</a>
+                <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Candidate</a>
+              </div>
+            </div>
+            <div class="col-md-12 tab-wrap">
+              <div class="tab-content p-4" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+                  <form action="{% url 'jobs:search' %}" class="search-job" method="get">
+                    <div class="row">
+                      <div class="col-md">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <div class="icon"><span class="icon-briefcase"></span></div>
+                            <input type="text" name="job_title" class="form-control" placeholder="e.g. Graphic, Web Developer">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <div class="select-wrap">
+                              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                              <select name="job_type" id="" class="form-control">
+                                <option value="full_time">Full Time</option>
+                                <option value="part_time">Part Time</option>
+                                <option value="freelance">Freelance</option>
+                                <option value="internship">Internship</option>
+                                <option value="temporary">Temporary</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <div class="icon"><span class="icon-map-marker"></span></div>
+                            <input type="text" name="job_location" class="form-control" placeholder="Location">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <input type="submit" value="Search" class="form-control btn btn-primary">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div> <!-- End Search Form -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- My Jobs Section -->
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-5 pb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2 class="mb-4"><span>My</span> Applied Jobs</h2>
+      </div>
+    </div>
+    <div class="row">
+      {% for job in jobs %}
+      <div class="col-md-12">
+        <div class="job-post-item p-4 bg-white mb-3">
+          <h3><a href="{% url 'jobs:single_job' job.slug job.pk %}">{{ job.title }}</a></h3>
+          <p><strong>Company:</strong> {{ job.company }}</p>
+          <p><strong>Location:</strong> {{ job.location }}</p>
+          <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+          <a href="{% url 'jobs:single_job' job.slug job.pk %}" class="btn btn-primary">View Job</a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center">You haven't applied to any jobs yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
