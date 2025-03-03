@@ -1,0 +1,79 @@
+{% extends 'halls/base.html' %}
+{% block content %}
+
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">What's your personal Hall of Fame?</h1>
+    <p class="lead text-muted">You know what they are. They're your goto videos. You have a top 10 list and it's time to share them with the world. Click the button below to get started.</p>
+    <p>
+      <a href="{% url 'create_hall' %}" class="btn btn-primary">Create Your Hall of Fame</a>
+    </p>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Recent Videos Section -->
+  <h1 class="text-center">Recent Videos</h1>
+  <div class="row">
+    {% for video in recent_videos %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/{{ video.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+        <p>{{ video.title }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- All Videos Section with Pagination -->
+  <h1 class="text-center">All Videos</h1>
+  {% for hall in all_halls %}
+  <div class="col-md-12">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5><a href="{% url 'detail_hall' hall.id %}" class="text-white">{{ hall.title }}</a></h5>
+      </div>
+      <div class="card-body text-center">
+        {% with video=hall.video_set.first %}
+        {% if video %}
+        <iframe width="50%" height="250" src="https://www.youtube.com/embed/{{ video.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+        <p class="card-text mt-2">{{ video.title }}</p>
+        {% else %}
+        <p>No videos yet.</p>
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-4">
+      {% if all_halls.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ all_halls.previous_page_number }}">Previous</a>
+      </li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link">Page {{ all_halls.number }} of {{ all_halls.paginator.num_pages }}</span>
+      </li>
+
+      {% if all_halls.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ all_halls.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ all_halls.paginator.num_pages }}">Last</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+</div>
+
+{% endblock %}
