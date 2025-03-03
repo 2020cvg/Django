@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    
+      <div class="main-wrap">
+        <div class="cover_1 cover_sm">
+          <div class="img_bg" style="background-image: url({% static 'site_static/img/slider-1.jpg' %})" data-stellar-background-ratio="0.5">
+            <div class="container">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-md-7" data-aos="fade-up">
+                  <h2 class="heading">Discover Our Stories</h2>
+                  <p class="lead">Explore the latest trends, food inspirations, and special moments from our restaurant. Stay updated with our events, behind-the-scenes stories, and expert culinary insights.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- .cover_1 -->
+
+       <div class="section">
+          <div class="container">
+            
+            <div class="row mb-5">
+             {% for post in post_list %}
+              
+                <div class="col-md-4">
+                    <div class="media d-block media-bg-white mb-5" data-aos="fade-up"  data-aos-delay="400">
+                    <figure>
+                        <a href="{% url 'blog:post_detail' post.id %}"><img src="{{post.image}}" alt="{{post.title}}" class="img-fluid"></a>
+                    </figure>
+                    <div class="media-body">
+                        <h3><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h3>
+                        <p class="post-meta"><span><i class="fa fa-calendar"></i> {{ post.created|date:"F d, Y" }}</span></p>
+                        <div class="media-body text-truncate">
+                          <p class="mb-4 text-truncate">{{ post.content|truncatewords:20 }}</p>
+                        </div>
+                        <p><a href="{% url 'blog:post_detail' post.id %}" class="btn btn-primary btn-outline-primary btn-sm">Read More</a></p>
+                    </div>
+                    </div> <!-- .media -->
+                </div>
+             {% empty %}
+                <div class="col-md-12 text-center">
+                  <p>No blog posts available at the moment. Check back soon for exciting updates!</p>
+                </div>
+             {% endfor %}
+            </div>
+
+            <div class="row">
+              
+              {% if post_list.has_other_pages %}
+                <div class="col-md-12">
+                  <ul class="pagination custom-pagination">
+                    {% if post_list.has_previous %}
+                      <li class="page-item prev"><a class="page-link" href="?page={{post_list.previous_page_number}}"><i class="fa fa-angle-left"></i></a></li>
+                    {% else %}
+                      <li class="disabled page-item"><span class="page-link"><i class="fa fa-angle-left"></i></span></li>
+                    {% endif %}
+
+                    {% for page in post_list.paginator.page_range %}
+                      {% if post_list.number == page %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                      {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if post_list.has_next %}
+                      <li class="page-item next"><a class="page-link" href="?page={{post_list.next_page_number}}"><i class="fa fa-angle-right"></i></a></li>
+                    {% else %}
+                      <li class="disabled page-item"><span class="page-link"><i class="fa fa-angle-right"></i></span></li>
+                    {% endif %} 
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+        </div> <!-- .section -->
+      </div> <!-- .main-wrap -->
+      
+{% endblock body %}

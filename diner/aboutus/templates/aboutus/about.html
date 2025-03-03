@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="main-wrap">
+    <div class="cover_1 cover_sm">
+        <div class="img_bg" style="background-image: url({% static 'site_static/img/slider-1.jpg' %})" data-stellar-background-ratio="0.5">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-7" data-aos="fade-up">
+                        <h2 class="heading">Experience the Art of Fine Dining</h2>
+                        <p class="lead">Welcome to our restaurant, where passion meets culinary excellence. Our commitment to using the freshest ingredients and time-honored recipes ensures an unforgettable dining experience every time you visit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .cover_1 -->
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7" data-aos="fade-up">
+                    <img src="{% static 'site_static/img/about_1.png' %}" alt="Our Restaurant" class="img-fluid">
+                </div>
+                <div class="col-md-5 pl-md-5" data-aos="fade-up" data-aos-delay="200">
+                    <h2 class="mb-4">{{about.title}}</h2>
+                    <p>{{about.content}}</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .section -->
+
+    <div class="section">
+        <div class="container">
+            <div class="row justify-content-center mb-5" data-aos="fade-up">
+                <div class="col-md-8 text-center">
+                    <h2 class="mb-3">Why Choose Us</h2>
+                    <p class="lead">Our dedication to quality and exceptional service sets us apart. From sourcing the finest ingredients to creating a warm and welcoming ambiance, we ensure an unparalleled dining experience.</p>
+                </div>
+            </div>
+            <div class="row large-gutters">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <img src="{% static 'site_static/img/img_2.jpg' %}" alt="Fine Dining Experience" class="img-fluid rounded">
+                </div>
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="accordion" id="accordion">
+                        {% for info in why_choose_us %}
+                        <div class="accordion-item">
+                            <h3 class="mb-0">
+                                <a class="btn-block p-3" data-toggle="collapse" href="#collapse{{info.id}}" role="button" aria-expanded="true" aria-controls="collapseOne">{{info.title}} <span class="icon"></span></a>
+                            </h3>
+                            <div id="collapse{{info.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="p-3">
+                                    <p>{{info.content}}</p>
+                                </div>
+                            </div>
+                        </div> <!-- .accordion-item -->
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .section -->
+
+    <div class="section">
+        <div class="container">
+            <div class="row justify-content-center mb-5" data-aos="fade-up">
+                <div class="col-md-8 text-center">
+                    <h2 class="mb-3">Meet Our Chefs</h2>
+                    <p class="lead">Our chefs are the heart of our restaurant, bringing creativity and skill to every dish. Their passion for culinary excellence is reflected in every plate served.</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for one in chef %}
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <img src="{{one.image}}" alt="Chef {{one.name}}" class="img-fluid mb-4 rounded">
+                    <h3 class="mb-3">{{one.name}}</h3>
+                    <p class="post-meta text-muted">{{one.title}}</p>
+                    <p class="mb-5">{{one.bio}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div> <!-- .section -->
+
+</div> <!-- .main-wrap -->
+
+{% endblock body %}
